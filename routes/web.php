@@ -20,9 +20,11 @@ Route::get('/services', function () {
     return view('services');
 })->name('services');
 
-Route::get('/properties', function () {
-    return view('properties');
-})->name('properties.index');
+// Properties Routes
+Route::controller(\App\Http\Controllers\PropertyController::class)->group(function () {
+    Route::get('/properties', 'index')->name('properties.index');
+    Route::get('/properties/{property}', 'show')->name('properties.show');
+});
 
 
 

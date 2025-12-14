@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class Property extends Model
 {
@@ -95,7 +96,7 @@ class Property extends Model
      */
     public function county(): BelongsTo
     {
-        return $this->belongsTo(County::class);
+        return $this->belongsTo(County::class, 'county_id', 'id');
     }
 
     /**
@@ -111,7 +112,7 @@ class Property extends Model
      */
     public function subCounty(): BelongsTo
     {
-        return $this->belongsTo(SubCounty::class);
+        return $this->belongsTo(SubCounty::class, 'sub_county_id', 'id');
     }
 
    

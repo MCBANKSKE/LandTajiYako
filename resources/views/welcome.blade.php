@@ -27,7 +27,10 @@
 @endpush
 
 @section('content')
-    <!-- Hero Section -->
     @include('homepartials.herosection')
-    
+    @include('homepartials.aboutsection')
+    @include('homepartials.featuredpropertiessection')
+    @include('homepartials.features')
+    @include('homepartials.testimonials')
+    @include('homepartials.whyus')
 @endsection

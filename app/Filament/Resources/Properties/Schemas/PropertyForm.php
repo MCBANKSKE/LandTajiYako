@@ -35,7 +35,6 @@ class PropertyForm
                             ->required()
                             ->maxLength(255),
                         TextInput::make('slug')
-                            //->required()
                             ->maxLength(255)
                             ->unique(Property::class, 'slug', ignoreRecord: true),
                         RichEditor::make('description')
@@ -128,45 +127,50 @@ class PropertyForm
                             ->default(1),
                     ])->columns(3),
 
-                
                 Section::make('Property Images')
                     ->description('Upload and manage property images')
                     ->schema([
                         Repeater::make('propertyImages')
-                            ->relationship()
+                            ->relationship('propertyImages') // Explicitly specify relationship name
                             ->schema([
                                 FileUpload::make('path')
                                     ->label('Image File')
                                     ->image()
                                     ->directory('properties/images')
                                     ->imageEditor()
-                                    ->imageResizeMode('cover')
-                                    ->imageCropAspectRatio('16:9')
-                                    ->imageResizeTargetWidth('1200')
                                     ->required()
                                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                                         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                                         $fileName = (string) str($originalName)
                                             ->slug()
                                             ->append('-' . uniqid() . '.webp');
-
+                                        
                                         $manager = new ImageManager(Driver::class);
                                         $image = $manager->read($file->getRealPath())
                                             ->scaleDown(1920, 1080)
                                             ->toWebp(85);
-
+                                        
+                                        // Save to storage
                                         Storage::disk('public')->put('properties/images/'.$fileName, $image);
                                         return $fileName;
-                                    }),
-                                
+                                    })
+                                    ->storeFiles(false), // Important: Prevent automatic storage
+                                    // OR use ->saveUploadedFileUsing() instead
+                                    
                                 TextInput::make('title')
                                     ->label('Image Title')
                                     ->required()
                                     ->maxLength(255)
+                                    ->live()
                                     ->hint('A descriptive title for this image')
-                                    ->reactive()
-                                    ->afterStateUpdated(function ($state, callable $set) {
-                                        if (empty($set('alt_text'))) {
+                                    ->afterStateUpdated(function ($state, callable $set, $get) {
+                                        // Auto-generate slug when title changes
+                                        if (!empty($state) && empty($get('slug'))) {
+                                            $slug = str($state)->slug()->toString();
+                                            $set('slug', $slug);
+                                        }
+                                        // Auto-fill alt text if empty
+                                        if (!empty($state) && empty($get('alt_text'))) {
                                             $set('alt_text', $state);
                                         }
                                     }),
@@ -175,12 +179,14 @@ class PropertyForm
                                     ->label('URL Slug')
                                     ->maxLength(255)
                                     ->hint('Auto-generated from title')
-                                    ->unique('property_images', 'slug', ignoreRecord: true),
+                                    ->unique('property_images', 'slug', ignoreRecord: true)
+                                    ->dehydrated(),
                                     
                                 TextInput::make('alt_text')
                                     ->label('Alt Text')
                                     ->required()
                                     ->maxLength(255)
+                                    ->live()
                                     ->hint('Description for accessibility and SEO'),
                                     
                                 Textarea::make('description')
@@ -192,19 +198,20 @@ class PropertyForm
                                 Toggle::make('is_featured')
                                     ->label('Set as Featured')
                                     ->default(false)
-                                    ->afterStateUpdated(function ($state, $set) {
-                                        if ($state) {
-                                            // This will be handled by Livewire to ensure only one featured image
-                                        }
-                                    })
-                                    ->hint('Featured image will be used as the main image'),
+                                    ->hint('Featured image will be used as the main image')
+                                    ->reactive()
+                                    ->live(),
+                                    
                             ])
-                           
                             ->addActionLabel('Add Image Details')
-                            
                             ->reorderable()
                             ->collapsible()
-                            
+                            ->itemLabel(function (array $state): ?string {
+                                return $state['title'] ?? 'New Image';
+                            })
+                            ->defaultItems(0)
+                            ->columns(2) // Better layout for forms
+                            ->columnSpan('full')
                     ])
                     ->columnSpanFull(),
 
@@ -222,11 +229,15 @@ class PropertyForm
                             ->default(false),
                         Toggle::make('is_installment_available')
                             ->label('Installment Available')
+                            ->live()
+                            ->reactive()
                             ->default(false),
                         TextInput::make('deposit')
                             ->numeric()
                             ->prefix('KSh')
                             ->nullable()
+                            ->live()
+                            ->reactive()
                             ->visible(fn (Get $get) => $get('is_installment_available')),
                     ])->columns(2),
 

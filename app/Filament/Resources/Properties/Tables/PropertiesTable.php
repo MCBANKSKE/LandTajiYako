@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Properties\Tables;
 
+use App\Models\Property;
+use App\Models\County;
+use App\Models\SubCounty;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,6 +23,11 @@ class PropertiesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(
+                Property::query()
+                    ->with(['county', 'subCounty'])
+                    ->withCount('images')
+            )
             ->columns([
                 ImageColumn::make('featuredImage.path')
                     ->label('')
@@ -33,17 +41,22 @@ class PropertiesTable
                     ->label('Property')
                     ->searchable()
                     ->sortable()
-                    ->description(fn (Property $record) => $record->type)
+                    ->description(fn ($record) => $record->type)
                     ->wrap(),
                     
-                TextColumn::make('location')
-                    ->label('Location')
-                    ->getStateUsing(fn (Property $record) => 
-                        $record->county?->name . ', ' . $record->subCounty?->name
-                    )
+                TextColumn::make('county.county_name')
+                    ->label('County')
                     ->searchable()
                     ->sortable()
-                    ->wrap(),
+                    ->wrap()
+                    ->placeholder('N/A'),
+                    
+                TextColumn::make('subCounty.constituency_name')
+                    ->label('Sub-County')
+                    ->searchable()
+                    ->sortable()
+                    ->wrap()
+                    ->placeholder('N/A'),
                     
                 TextColumn::make('price')
                     ->label('Price')

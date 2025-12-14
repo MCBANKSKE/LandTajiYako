@@ -8,9 +8,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/about', function () {
     return view('about');
@@ -28,9 +26,11 @@ Route::controller(\App\Http\Controllers\PropertyController::class)->group(functi
 
 
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+// Contact Routes
+Route::controller(\App\Http\Controllers\ContactController::class)->group(function () {
+    Route::get('/contact', 'index')->name('contact');
+    Route::post('/contact', 'submit')->name('contact.submit');
+});
 
 
 

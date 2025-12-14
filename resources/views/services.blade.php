@@ -1,185 +1,210 @@
 @extends('layouts.app')
 
+@section('title', 'Taji Yako Properties - Find Your Dream Property in Kenya')
+
+@push('meta')
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Taji Yako Properties - Find Your Dream Property in Kenya">
+    <meta name="description" content="Discover prime lands, residential and commercial properties across Kenya with Taji Yako Properties. Your trusted real estate partner for secure and profitable investments.">
+    <meta name="keywords" content="real estate Kenya, land for sale in Kenya, houses for sale, apartments for rent, commercial property Kenya, prime land Kenya, real estate investment Kenya">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="Taji Yako Properties - Find Your Dream Property in Kenya">
+    <meta property="og:description" content="Discover prime lands, residential and commercial properties across Kenya with Taji Yako Properties. Your trusted real estate partner for secure and profitable investments.">
+    <meta property="og:image" content="{{ asset('assets/img/favicon.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="Taji Yako Properties - Find Your Dream Property in Kenya">
+    <meta property="twitter:description" content="Discover prime lands, residential and commercial properties across Kenya with Taji Yako Properties. Your trusted real estate partner for secure and profitable investments.">
+    <meta property="twitter:image" content="{{ asset('assets/img/favicon.png') }}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}" />
+@endpush
+
 @section('content')
-<!-- ======= Services Section ======= -->
-<section id="services" class="services">
-    <div class="container" data-aos="fade-up">
-        <div class="section-header">
-            <h2>Our Services</h2>
-            <p>Comprehensive Real Estate Solutions</p>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="heading">
+    <div class="container">
+      <div class="row d-flex justify-content-center text-center">
+        <div class="col-lg-8">
+          <h1 class="heading-title">Our Services</h1>
+          <p class="mb-0">
+            At Taji Yako Properties Ltd, we provide comprehensive real estate solutions to help you buy, sell, rent, and manage properties across Kenya. Our expert team is committed to delivering exceptional service throughout your property journey.
+          </p>
         </div>
-
-        <div class="row gy-4">
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-house-door"></i>
-                    </div>
-                    <h3>Property Sales</h3>
-                    <p>Find your dream property from our extensive collection of residential and commercial properties across prime locations in Kenya.</p>
-                    <a href="#" class="readmore stretched-link">Learn more <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-building"></i>
-                    </div>
-                    <h3>Property Management</h3>
-                    <p>Professional property management services to help you maintain and maximize the value of your real estate investments.</p>
-                    <a href="#" class="readmore stretched-link">Learn more <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-search"></i>
-                    </div>
-                    <h3>Property Valuation</h3>
-                    <p>Accurate and professional property valuation services for sales, purchases, insurance, and tax purposes.</p>
-                    <a href="#" class="readmore stretched-link">Learn more <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-bank"></i>
-                    </div>
-                    <h3>Mortgage Services</h3>
-                    <p>Expert guidance and support throughout the mortgage application process with our trusted banking partners.</p>
-                    <a href="#" class="readmore stretched-link">Learn more <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-house-gear"></i>
-                    </div>
-                    <h3>Property Development</h3>
-                    <p>End-to-end property development solutions from land acquisition to construction and project management.</p>
-                    <a href="#" class="readmore stretched-link">Learn more <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-file-earmark-text"></i>
-                    </div>
-                    <h3>Legal & Conveyancing</h3>
-                    <p>Professional legal services to ensure smooth property transactions and secure documentation.</p>
-                    <a href="#" class="readmore stretched-link">Learn more <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-</section>
-<!-- End Services Section -->
-
-<!-- ======= Process Section ======= -->
-<section id="process" class="process">
-    <div class="container" data-aos="fade-up">
-        <div class="section-header">
-            <h2>Our Process</h2>
-            <p>Simple and Transparent Property Transactions</p>
-        </div>
-
-        <div class="row gy-4">
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="process-item">
-                    <span class="process-number">01</span>
-                    <h4>Consultation</h4>
-                    <p>We listen to your requirements and understand your property needs.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="process-item">
-                    <span class="process-number">02</span>
-                    <h4>Property Search</h4>
-                    <p>Our experts find properties that match your criteria.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="process-item">
-                    <span class="process-number">03</span>
-                    <h4>Viewing</h4>
-                    <p>Schedule viewings of shortlisted properties at your convenience.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="process-item">
-                    <span class="process-number">04</span>
-                    <h4>Transaction</h4>
-                    <p>We handle all documentation and legal processes for a smooth transaction.</p>
-                </div>
-            </div>
-        </div>
+  </div>
+  <nav class="breadcrumbs">
+    <div class="container">
+      <ol>
+        <li><a href="{{ route('home') }}">Home</a></li>
+        <li class="current">Services</li>
+      </ol>
     </div>
-</section>
-<!-- End Process Section -->
+  </nav>
+</div><!-- End Page Title -->
 
-<!-- ======= Why Choose Us Section ======= -->
-<section id="why-us" class="why-us section-bg">
-    <div class="container" data-aos="fade-up">
-        <div class="row gy-4">
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="why-us-content">
-                    <h3>Why Choose Our Services?</h3>
-                    <p>
-                        At Taji Yako Properties Limited, we are committed to providing exceptional real estate services with integrity and professionalism. Our team of experts is dedicated to helping you find the perfect property solution.
-                    </p>
-                    <div class="features">
-                        <div class="feature-item d-flex">
-                            <i class="bi bi-check-circle"></i>
-                            <div>
-                                <h4>Extensive Property Portfolio</h4>
-                                <p>Wide selection of properties to choose from across Kenya.</p>
-                            </div>
-                        </div>
-                        <div class="feature-item d-flex">
-                            <i class="bi bi-check-circle"></i>
-                            <div>
-                                <h4>Expert Guidance</h4>
-                                <p>Professional advice from our experienced real estate consultants.</p>
-                            </div>
-                        </div>
-                        <div class="feature-item d-flex">
-                            <i class="bi bi-check-circle"></i>
-                            <div>
-                                <h4>Customer-Centric Approach</h4>
-                                <p>Your satisfaction is our top priority.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
-                <div class="image">
-                    <img src="{{ asset('assets/img/services.jpg') }}" class="img-fluid" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- End Why Choose Us Section -->
+<!-- Services Section -->
+<section class="real-estate-services-3 services section" id="services">
 
-<!-- ======= CTA Section ======= -->
-<section id="cta" class="cta">
-    <div class="container" data-aos="zoom-in">
-        <div class="text-center">
-            <h3>Ready to Get Started?</h3>
-            <p>Contact us today to discuss your real estate needs with our expert team.</p>
-            <a class="cta-btn" href="{{ route('contact') }}">Get in Touch</a>
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-6 col-md-12">
+        <div class="service-block" data-aos="fade-right" data-aos-delay="200">
+          <div class="service-content">
+            <div class="icon">
+              <i class="bi bi-house-door"></i>
+            </div>
+            <h3>Buy Your Dream Home</h3>
+            <p>Find your perfect property from our extensive collection of residential and commercial properties across prime locations in Kenya. At Taji Yako Properties Ltd, we guide you through every step of the buying process to ensure a smooth transaction.</p>
+            <div class="stats">
+              <div class="stat-item">
+                <span class="number">600+</span>
+                <span class="label">Properties Sold</span>
+              </div>
+              <div class="stat-item">
+                <span class="number">98%</span>
+                <span class="label">Client Satisfaction</span>
+              </div>
+            </div>
+            <a href="{{ route('properties.index') }}" class="btn-service">Browse Properties <i class="bi bi-arrow-right"></i></a>
+          </div>
+          <div class="service-image">
+            <img src="assets/img/real-estate/property-exterior-3.webp" alt="Buy Property" class="img-fluid">
+          </div>
         </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12">
+        <div class="service-block" data-aos="fade-left" data-aos-delay="200">
+          <div class="service-content">
+            <div class="icon">
+              <i class="bi bi-currency-dollar"></i>
+            </div>
+            <h3>Sell Your Property</h3>
+            <p>Maximize your property's value with Taji Yako Properties Ltd's professional sales services. We provide accurate market valuation, strategic marketing, and expert negotiation to achieve the best possible price for your property in the shortest time.</p>
+            <div class="stats">
+              <div class="stat-item">
+                <span class="number">45</span>
+                <span class="label">Days Average Sale</span>
+              </div>
+              <div class="stat-item">
+                <span class="number">KES 50M+</span>
+                <span class="label">Highest Sale Price</span>
+              </div>
+            </div>
+            <a href="{{ route('contact') }}" class="btn-service">Get Free Valuation <i class="bi bi-arrow-right"></i></a>
+          </div>
+          <div class="service-image">
+            <img src="assets/img/real-estate/property-exterior-7.webp" alt="Sell Property" class="img-fluid">
+          </div>
+        </div>
+      </div>
+
     </div>
-</section>
-<!-- End CTA Section -->
+
+    <div class="row gy-4 mt-4">
+
+      <div class="col-lg-4 col-md-6">
+        <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
+          <div class="card-icon">
+            <i class="bi bi-key"></i>
+          </div>
+          <h4>Rental Services</h4>
+          <p>Comprehensive rental solutions for both landlords and tenants. Taji Yako Properties Ltd makes renting easy with our professional property management and tenant placement services.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Comprehensive Tenant Screening</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Strategic Property Marketing</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Professional Lease Management</span>
+            </div>
+          </div>
+          <a href="{{ route('properties.index') }}?property_type=apartment" class="service-link">Explore Rentals <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="service-card" data-aos="zoom-in" data-aos-delay="200">
+          <div class="card-icon">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <h4>Investment Consulting</h4>
+          <p>Make informed real estate decisions with our expert investment guidance. We help you identify profitable opportunities and build a sustainable property portfolio in Kenya's growing market.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Detailed Market Analysis</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Accurate ROI Calculations</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Personalized Portfolio Planning</span>
+            </div>
+          </div>
+          <a href="{{ route('contact') }}" class="service-link">Start Investing <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="service-card" data-aos="zoom-in" data-aos-delay="300">
+          <div class="card-icon">
+            <i class="bi bi-tools"></i>
+          </div>
+          <h4>Property Management</h4>
+          <p>Professional property management services to maintain and maximize the value of your real estate investments. We handle everything from maintenance to tenant relations.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Proactive Maintenance Coordination</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>Efficient Rent Collection</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check2"></i>
+              <span>24/7 Tenant Support</span>
+            </div>
+          </div>
+          <a href="{{ route('contact') }}" class="service-link">Manage Property <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cta-section" data-aos="fade-up" data-aos-delay="400">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h3>Ready to Find Your Perfect Property?</h3>
+          <p>Contact Taji Yako Properties Ltd today to discuss your real estate needs with our expert team. Whether you're buying, selling, or investing, we're here to guide you every step of the way.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <a href="{{ route('contact') }}" class="btn btn-cta">Schedule Free Consultation</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section><!-- /Services Section -->
 
 @endsection

@@ -4,18 +4,8 @@
         <div class="row align-items-center gy-5">
           <div class="col-lg-6 order-lg-2" data-aos="fade-left" data-aos-delay="200">
             <div class="about-img">
-              <img src="{{ asset('assets/img/about-us.jpg') }}" class="img-fluid rounded-4" alt="About Taji Yako Properties">
-              <div class="floating-card">
-                <div class="card-content">
-                  <div class="icon">
-                    <i class="bi bi-award"></i>
-                  </div>
-                  <div class="text">
-                    <span class="number"><span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>+</span>
-                    <span class="label">Years Experience</span>
-                  </div>
-                </div>
-              </div>
+              <img src="{{ asset('assets/img/about.webp') }}" class="img-fluid rounded-4" alt="About Taji Yako Properties">
+              
             </div>
           </div>
 

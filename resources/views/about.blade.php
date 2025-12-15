@@ -40,7 +40,7 @@
 
           <div class="founder-highlight" data-aos="fade-up" data-aos-delay="300">
             <div class="founder-image">
-              <img src="assets/img/person/person-m-7.webp" alt="Founder" class="img-fluid">
+              <img src="{{ asset('assets/img/logo.webp') }}" alt="Founder" class="img-fluid">
             </div>
             <div class="founder-info">
               <blockquote>"At TAJI YAKO PROPERTIES LTD, we believe in building lasting relationships with our clients by providing honest advice, transparent transactions, and exceptional service that goes beyond the sale."</blockquote>

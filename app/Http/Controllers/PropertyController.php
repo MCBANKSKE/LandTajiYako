@@ -80,8 +80,15 @@ class PropertyController extends Controller
             ->pluck('type');
 
         $counties = County::orderBy('county_name')->get();
+        
+        // Get featured properties
+        $featuredProperties = Property::where('is_featured', true)
+            ->where('status', 'available')
+            ->with(['county', 'subCounty', 'images'])
+            ->take(4)
+            ->get();
 
-        return view('properties.index', compact('properties', 'propertyTypes', 'counties'));
+        return view('properties.index', compact('properties', 'propertyTypes', 'counties', 'featuredProperties'));
     }
 
     /**

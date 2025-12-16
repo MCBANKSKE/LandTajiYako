@@ -19,13 +19,16 @@ class TestimonialsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->circular()
+                    ->label('Image'),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('role')
                     ->searchable(),
                 TextColumn::make('company')
                     ->searchable(),
-                ImageColumn::make('image'),
+                
                 TextColumn::make('rating')
                     ->numeric()
                     ->sortable(),

@@ -6,15 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', config('app.name', 'Wakah Logistics'))</title>
+    <title>@yield('title', config('app.name', 'Taji Yako Properties'))</title>
 
-    <meta name="description" content="Wakah Logistics - Reliable Logistics & Courier Services">
-    <meta name="keywords" content="Wakah Logistics, logistics, courier, shipping, delivery">
-    <meta name="author" content="Wakah Logistics">
-    
+    <!-- Meta Tags -->
+    <meta name="description" content="@yield('meta_description', 'Connecting you with perfect homes, commercial spaces, and prime land.')">
+    <meta name="keywords" content="real estate, properties, land for sale, homes, commercial property">
+    <meta name="author" content="Taji Yako Properties Ltd">
+
+     <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('og:title', 'Taji Yako Properties - Your Trusted Real Estate Partner')">
+    <meta property="og:description" content="@yield('og:description', 'Find land, homes and commercial properties with trusted agents.')">
+    <meta property="og:image" content="@yield('og:image', asset('assets/img/logo.png'))">
+
+
     <!-- In the head section -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     
     <!-- Favicons -->
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">

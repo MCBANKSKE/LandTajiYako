@@ -154,8 +154,8 @@ class PropertyForm
                                         Storage::disk('public')->put('properties/images/'.$fileName, $image);
                                         return $fileName;
                                     })
-                                    ->storeFiles(false), // Important: Prevent automatic storage
-                                    // OR use ->saveUploadedFileUsing() instead
+                                    ->storeFiles(false),
+                                    
                                     
                                 TextInput::make('title')
                                     ->label('Image Title')

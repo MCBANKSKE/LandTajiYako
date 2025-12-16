@@ -92,7 +92,11 @@ class PropertyImage extends Model
     {
         // Assuming you'll create thumbnails using intervention/image or similar
         $pathInfo = pathinfo($this->path);
-        $thumbnailPath = $pathInfo['dirname'] . '/thumbs/' . $pathInfo['filename'] . '_thumb.' . $pathInfo['extension'];
+        
+        // Build the thumbnail path, handling cases where extension might not exist
+        $extension = $pathInfo['extension'] ?? '';
+        $thumbnailPath = $pathInfo['dirname'] . '/thumbs/' . $pathInfo['filename'] . '_thumb' . 
+                        ($extension ? '.' . $extension : '');
         
         return file_exists(storage_path('app/public/' . $thumbnailPath)) 
             ? asset('storage/' . $thumbnailPath)

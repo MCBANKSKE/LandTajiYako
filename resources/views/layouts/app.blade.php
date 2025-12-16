@@ -18,7 +18,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('og:title', 'Taji Yako Properties - Your Trusted Real Estate Partner')">
     <meta property="og:description" content="@yield('og:description', 'Find land, homes and commercial properties with trusted agents.')">
-    <meta property="og:image" content="@yield('og:image', asset('images/logo.png'))">
+    <meta property="og:image" content="@yield('og:image', asset('assets/img/logo.png'))">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CountySeeder::class,
             SubCountySeeder::class,
+            PropertySeeder::class,
         ]);
 
         // Create admin user

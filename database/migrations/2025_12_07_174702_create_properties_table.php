@@ -23,8 +23,9 @@ return new class extends Migration
             $table->foreignId('sub_county_id')->nullable()->constrained()->onDelete('set null');
             $table->string('ward')->nullable();
             $table->string('address')->nullable();
-            $table->point('coordinates')->nullable()->comment('Latitude and longitude');
             $table->string('nearest_landmark')->nullable();
+            $table->decimal('latitude', 10, 8)->nullable()->comment('Latitude coordinate');
+            $table->decimal('longitude', 11, 8)->nullable()->comment('Longitude coordinate');
             
             // Property specifications
             $table->decimal('size', 10, 2)->comment('Size in specified unit');
@@ -86,7 +87,7 @@ return new class extends Migration
             $table->index(['county_id', 'sub_county_id']);
             $table->index(['price', 'type']);
             $table->index(['created_at', 'published_at']);
-            $table->spatialIndex('coordinates');
+            $table->index(['latitude', 'longitude']);
         });
     }
 

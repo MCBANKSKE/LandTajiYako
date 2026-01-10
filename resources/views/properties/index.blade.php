@@ -123,7 +123,7 @@
                         <div class="agent-info">
                           <strong>Taji Yako Properties</strong>
                           <div class="agent-contact">
-                            <small><i class="bi bi-telephone"></i> +254 700 000000</small>
+                            <small><i class="bi bi-telephone"></i> +254 720 927 989</small>
                           </div>
                         </div>
                       </div>

@@ -16,5 +16,10 @@ class SubCounty extends Model
     {
         return $this->belongsTo(County::class, 'county_id', 'id');
     }
+
+    public function properties(): HasMany
+    {
+        return $this->hasMany(Property::class);
+    }
    
 }

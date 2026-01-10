@@ -10,7 +10,6 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -34,12 +33,6 @@ class PropertyForm
                         TextInput::make('title')
                             ->required()
                             ->maxLength(255),
-                        TextInput::make('slug')
-                            ->maxLength(255)
-                            ->unique(Property::class, 'slug', ignoreRecord: true),
-                        RichEditor::make('description')
-                            ->required()
-                            ->columnSpanFull(),
                         Select::make('type')
                             ->options([
                                 'land' => 'Land',
@@ -49,6 +42,10 @@ class PropertyForm
                                 'industrial' => 'Industrial',
                             ])
                             ->required(),
+                        RichEditor::make('description')
+                            ->required()
+                            ->columnSpanFull(),
+                        
                     ])
                     ->columnSpanFull()
                     ->columns(2),
@@ -62,7 +59,7 @@ class PropertyForm
                             ->preload()
                             ->live()
                             ->afterStateUpdated(function (callable $set) {
-                                $set('subcounty_id', null);
+                                $set('sub_county_id', null);
                                 $set('ward', null);
                             }),
                         Select::make('sub_county_id')
@@ -71,9 +68,11 @@ class PropertyForm
                                  $countyId = $get('county_id');
                                  if (!$countyId) return [];
                                  return \App\Models\SubCounty::where('county_id', $countyId)
-                                 ->get()
-                                 ->unique('constituency_name')
-                                 ->mapWithKeys(fn ($sub) => [$sub->id => ucfirst($sub->constituency_name)]);
+                                     ->get()
+                                     ->groupBy('constituency_name')
+                                     ->mapWithKeys(fn ($group) => [
+                                         $group->first()->id => ucfirst($group->first()->constituency_name)
+                                     ]);
                             })
                             ->searchable()
                             ->preload()
@@ -81,7 +80,7 @@ class PropertyForm
                             ->afterStateUpdated(fn (callable $set) => $set('ward', null)),
                         Select::make('ward')
                              ->options(function (callable $get) {
-                                        $subCountyId = $get('subcounty_id');
+                                        $subCountyId = $get('sub_county_id');
                                         if (!$subCountyId) return [];
                                         $subCounty = \App\Models\SubCounty::find($subCountyId);
                                         if (!$subCounty) return [];
@@ -97,6 +96,16 @@ class PropertyForm
                         TextInput::make('nearest_landmark')
                             ->maxLength(255)
                             ->nullable(),
+                        TextInput::make('latitude')
+                            ->numeric()
+                            ->nullable()
+                            ->suffix('°')
+                            ->step(0.000001),
+                        TextInput::make('longitude')
+                            ->numeric()
+                            ->nullable()
+                            ->suffix('°')
+                            ->step(0.000001),
                         TextInput::make('google_map_link')
                             ->url()
                             ->maxLength(500)
@@ -125,13 +134,19 @@ class PropertyForm
                         TextInput::make('floors')
                             ->numeric()
                             ->default(1),
+                        TextInput::make('parking_spaces')
+                            ->numeric()
+                            ->nullable(),
+                        TextInput::make('year_built')
+                            ->numeric()
+                            ->nullable(),
                     ])->columns(3),
 
                 Section::make('Property Images')
                     ->description('Upload and manage property images')
                     ->schema([
-                        Repeater::make('propertyImages')
-                            ->relationship('propertyImages') // Explicitly specify relationship name
+                        Repeater::make('images')
+                            ->relationship('images') // Use correct relationship name
                             ->schema([
                                 FileUpload::make('path')
                                     ->label('Image File')
@@ -152,9 +167,30 @@ class PropertyForm
                                         
                                         // Save to storage
                                         Storage::disk('public')->put('properties/images/'.$fileName, $image);
-                                        return $fileName;
+                                        
+                                        // Return the path relative to the disk root
+                                        return 'properties/images/'.$fileName;
                                     })
-                                    ->storeFiles(false),
+                                    ->storeFiles(false)
+                                    ->afterStateUpdated(function ($state, callable $set) {
+                                        if ($state instanceof TemporaryUploadedFile) {
+                                            $set('original_name', $state->getClientOriginalName());
+                                            $set('mime_type', $state->getMimeType());
+                                            $set('file_size', $state->getSize());
+                                            $set('filename', pathinfo($state->getClientOriginalName(), PATHINFO_FILENAME));
+                                            $set('disk', 'public');
+                                            $set('directory', 'properties/images');
+                                            $set('type', 'image');
+                                        }
+                                    }),
+                                    
+                                \Filament\Forms\Components\Hidden::make('original_name'),
+                                \Filament\Forms\Components\Hidden::make('mime_type'),
+                                \Filament\Forms\Components\Hidden::make('file_size'),
+                                \Filament\Forms\Components\Hidden::make('filename'),
+                                \Filament\Forms\Components\Hidden::make('disk'),
+                                \Filament\Forms\Components\Hidden::make('directory'),
+                                \Filament\Forms\Components\Hidden::make('type'),
                                     
                                     
                                 TextInput::make('title')
@@ -175,12 +211,7 @@ class PropertyForm
                                         }
                                     }),
                                     
-                                TextInput::make('slug')
-                                    ->label('URL Slug')
-                                    ->maxLength(255)
-                                    ->hint('Auto-generated from title')
-                                    ->unique('property_images', 'slug', ignoreRecord: true)
-                                    ->dehydrated(),
+                              
                                     
                                 TextInput::make('alt_text')
                                     ->label('Alt Text')
@@ -239,8 +270,21 @@ class PropertyForm
                             ->live()
                             ->reactive()
                             ->visible(fn (Get $get) => $get('is_installment_available')),
+                        TextInput::make('monthly_payment')
+                            ->numeric()
+                            ->prefix('KSh')
+                            ->nullable()
+                            ->live()
+                            ->reactive()
+                            ->visible(fn (Get $get) => $get('is_installment_available')),
+                        TextInput::make('installment_months')
+                            ->numeric()
+                            ->nullable()
+                            ->suffix('months')
+                            ->live()
+                            ->reactive()
+                            ->visible(fn (Get $get) => $get('is_installment_available')),
                     ])->columns(2),
-
 
                 Section::make('Additional Information')
                     ->schema([
@@ -249,6 +293,9 @@ class PropertyForm
                             ->default(false),
                         Toggle::make('is_verified')
                             ->label('Verified Property')
+                            ->default(false),
+                        Toggle::make('is_premium')
+                            ->label('Premium Listing')
                             ->default(false),
                         Select::make('status')
                             ->options([
@@ -260,6 +307,14 @@ class PropertyForm
                             ])
                             ->default('available')
                             ->required(),
+                        Select::make('listing_type')
+                            ->options([
+                                'sale' => 'For Sale',
+                                'rent' => 'For Rent',
+                                'lease' => 'For Lease',
+                            ])
+                            ->required()
+                            ->default('sale'),
                         Textarea::make('additional_info')
                             ->label('Additional Information')
                             ->maxLength(2000)

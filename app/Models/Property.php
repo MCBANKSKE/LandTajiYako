@@ -23,7 +23,8 @@ class Property extends Model
         'sub_county_id',
         'ward',
         'address',
-        'coordinates',
+        'latitude',
+        'longitude',
         'nearest_landmark',
         'size',
         'size_unit',
@@ -70,7 +71,8 @@ class Property extends Model
         'deposit' => 'decimal:2',
         'monthly_payment' => 'decimal:2',
         'size' => 'decimal:2',
-        'coordinates' => 'point',
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
         'is_featured' => 'boolean',
         'is_verified' => 'boolean',
         'is_premium' => 'boolean',
@@ -327,23 +329,12 @@ class Property extends Model
 
     public function getLatitude(): ?float
     {
-        if (!$this->coordinates) {
-            return null;
-        }
-        
-        // Assuming coordinates are stored as POINT(lat lng)
-        preg_match('/POINT\(([^ ]+) ([^ ]+)\)/', $this->coordinates, $matches);
-        return $matches[1] ?? null;
+        return $this->latitude;
     }
 
     public function getLongitude(): ?float
     {
-        if (!$this->coordinates) {
-            return null;
-        }
-        
-        preg_match('/POINT\(([^ ]+) ([^ ]+)\)/', $this->coordinates, $matches);
-        return $matches[2] ?? null;
+        return $this->longitude;
     }
 
     public function scopeNearby($query, float $latitude, float $longitude, int $radius = 10)
@@ -351,8 +342,8 @@ class Property extends Model
         return $query->whereRaw(
             "ST_Distance_Sphere(point(?, ?), point(?, ?)) <= ? * 1000",
             [
-                $this->getLatitude(),
-                $this->getLongitude(),
+                $latitude,
+                $longitude,
                 $latitude,
                 $longitude,
                 $radius

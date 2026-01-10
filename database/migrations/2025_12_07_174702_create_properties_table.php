@@ -6,31 +6,34 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('properties', function (Blueprint $table) {
+            // Primary key
             $table->id();
+            
+            // Basic information
             $table->string('title');
-            $table->string('slug')->unique()->nullable();
+            $table->string('slug')->unique();
             $table->text('description');
             $table->enum('type', ['land', 'house', 'apartment', 'commercial', 'industrial']);
             
-            // Location
+            // Location information
             $table->foreignId('county_id')->constrained()->onDelete('cascade');
-            $table->foreignId('sub_county_id')->nullable()->constrained('sub_counties')->onDelete('set null');
+            $table->foreignId('sub_county_id')->nullable()->constrained()->onDelete('set null');
             $table->string('ward')->nullable();
             $table->string('address')->nullable();
+            $table->point('coordinates')->nullable()->comment('Latitude and longitude');
             $table->string('nearest_landmark')->nullable();
             
-            // Property Details
-            $table->decimal('size', 10, 2)->comment('Size in square feet or acres');
-            $table->string('size_unit')->default('sqft');
+            // Property specifications
+            $table->decimal('size', 10, 2)->comment('Size in specified unit');
+            $table->enum('size_unit', ['sqft', 'acres', 'hectares', 'square_meters'])->default('sqft');
             $table->integer('bedrooms')->nullable();
             $table->integer('bathrooms')->nullable();
             $table->integer('floors')->default(1);
+            $table->integer('parking_spaces')->nullable();
+            $table->integer('year_built')->nullable();
             
             // Pricing
             $table->decimal('price', 15, 2);
@@ -38,30 +41,55 @@ return new class extends Migration
             $table->boolean('price_negotiable')->default(false);
             $table->boolean('is_installment_available')->default(false);
             $table->decimal('deposit', 15, 2)->nullable();
+            $table->decimal('monthly_payment', 15, 2)->nullable()->comment('If installment available');
+            $table->integer('installment_months')->nullable();
             
-            // Status
+            // Status & Flags
             $table->enum('status', ['available', 'sold', 'rented', 'under_offer', 'off_market'])->default('available');
+            $table->enum('listing_type', ['sale', 'rent', 'lease'])->default('sale');
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_verified')->default(false);
+            $table->boolean('is_premium')->default(false);
+            $table->timestamp('featured_until')->nullable();
+            $table->timestamp('verified_at')->nullable();
             
             // Media & Links
             $table->string('featured_image')->nullable();
+            $table->json('image_gallery')->nullable();
+            $table->string('virtual_tour_link')->nullable();
             $table->string('youtube_video_link')->nullable();
             $table->string('google_map_link')->nullable();
             
-            // Additional Details
+            // Categorization
             $table->json('amenities')->nullable();
             $table->json('features')->nullable();
             $table->text('additional_info')->nullable();
-                        
-            $table->softDeletes();
+            $table->json('tags')->nullable()->comment('Searchable tags');
+            
+            // SEO & Meta
+            $table->string('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->json('meta_keywords')->nullable();
+            
+            // View & Performance tracking
+            $table->unsignedInteger('view_count')->default(0);
+            $table->unsignedInteger('contact_count')->default(0);
+            $table->timestamp('last_viewed_at')->nullable();
+            
+            // Timestamps
             $table->timestamps();
+            $table->softDeletes();
+            $table->timestamp('published_at')->nullable();
+            
+            // Indexes for performance
+            $table->index(['status', 'is_featured']);
+            $table->index(['county_id', 'sub_county_id']);
+            $table->index(['price', 'type']);
+            $table->index(['created_at', 'published_at']);
+            $table->spatialIndex('coordinates');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('properties');
